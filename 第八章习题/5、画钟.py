@@ -1,13 +1,16 @@
 from turtle import *
 from time import *
 
+
+mode('logo')
 # 钟的大小：R=300  时针长度：70 分针长度：200 秒针长度：250
 # 画出钟表雏形
 # 画圆
+speed(3)
 up()
-goto(0, 300)
+goto(300,0)
 pd()
-circle(-300)
+circle(300)
 up()
 # 画时间
 goto(0,275)
@@ -36,6 +39,7 @@ forward(280)
 dot()
 right(120)
 forward(280)
+dot()
 home()
 right(150)
 forward(280)
@@ -98,5 +102,21 @@ pen4 = Turtle()
 pen4.ht()
 pen4.up()
 
+def runclock():  # 根据当前时间旋转秒针、分针和时针，刷新时间
+    t = localtime()
+    setheading(270 + 6 * t.tm_sec)
+    pen2.setheading(270 + 6 * t.tm_min + 6 * t.tm_sec / 60)
+    pen3.setheading(270 + 30 * t.tm_hour + 30 * t.tm_min / 60)
+    pen4.goto(0, 50)
+    pen4.clear()
+    ts = '%s年%s月%s日' % (t.tm_year, t.tm_mon, t.tm_mday)
+    pen4.write(ts, align='center', font=("宋体", 14, "bold"))
+    pen4.goto(0, 30)
+    ts = '%s:%s:%s' % (t.tm_hour, t.tm_min, t.tm_sec)
+    pen4.write(ts, align='center', font=("宋体", 14, "bold"))
+    ontimer(runclock, 1000)
+
+
+runclock()
 done()
 
